@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - CareerFlow</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1>Register</h1>
+            <p>Create your account</p>
+
+            <form method="POST" action="{% url 'register' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username (Unique ID)" required>
+                <input type="email" name="email" placeholder="Enter Email" required>
+                <!-- ADDED PASSWORD FIELD -->
+                <input type="password" name="password" placeholder="Create Password" required>
+                <input type="text" name="phone" placeholder="Phone Number" required>
+                
+                <select name="user_type" id="user_type" onchange="toggleFields()" required>
+                    <option value="" disabled selected>Select User Type</option>
+                    <option value="student">Student</option>
+                    <option value="company">Company</option>
+                </select>
+
+                <div id="student-fields" style="display: none;">
+                    <input type="text" name="course" placeholder="Course (e.g. B.Com)">
+                    <input type="number" step="0.01" name="percentage" placeholder="Aggregate Percentage">
+                    <textarea name="skills" placeholder="Skills (Java, Excel, etc.)"></textarea>
+                    <label style="color: #64748b; font-size: 0.8rem; display: block; margin-top: 10px;">Upload Resume (PDF only):</label>
+                    <input type="file" name="resume" accept=".pdf">
+                </div>
+
+                <div id="company-fields" style="display: none;">
+                    <input type="text" name="company_name" placeholder="Official Company Name" >
+                    <input type="text" name="website" placeholder="Website (Optional)">
+                    <input type="text" name="industry" placeholder="Industry (e.g., IT, Finance)">
+                </div>
+
+                <button type="submit">Register</button>
+            </form>
+            
+            <div class="auth-link">
+                <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/auth.js' %}"></script>
+</body>
+</html>

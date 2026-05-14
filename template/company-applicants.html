@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Applicants</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="sidebar">
+        <h2>Company</h2>
+        <ul>
+            <li><a href="{% url 'company_dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'company_post_jobs' %}">Post Job</a></li>
+            <li><a href="{% url 'company_applicants' %}" class="active">Applicants</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Student Applications</h1>
+            <p>Review and shortlist students for your job roles.</p>
+        </div>
+
+        <div class="table-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>CGPA</th>
+                        <th>Skills</th>
+                    </tr>
+                </thead>
+                    <tbody>
+    {% for app in applicants %}
+    <tr>
+        <td><strong>{{ app.student.user.username }}</strong></td>
+        <td>{{ app.student.department|default:app.student.course }}</td>
+        <td>{{ app.student.cgpa|default:app.student.percentage }}</td>
+        <td>{{ app.job.title }}</td>
+        <td>
+            <form method="POST" action="{% url 'company_applicants' %}" style="display: inline-flex; align-items: center; gap: 8px;">
+                {% csrf_token %}
+                <input type="hidden" name="application_id" value="{{ app.id }}">
+                
+                <select name="status" style="padding: 6px; border-radius: 4px; border: 1px solid #ccc;">
+                    <option value="Applied" {% if app.status == "Applied" %}selected{% endif %}>Applied / Pending</option>
+                    <option value="Shortlisted" {% if app.status == "Shortlisted" %}selected{% endif %}>Shortlisted</option>
+                    <option value="Rejected" {% if app.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                </select>
+                
+                <button type="submit" style="padding: 6px 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Update
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5" style="text-align: center; padding: 20px;">No students have applied to your job postings yet.</td>
+    </tr>
+    {% endfor %}
+</tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

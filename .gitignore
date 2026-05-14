@@ -1,0 +1,15 @@
+# Virtual Environment (keeps thousands of library files off GitHub)
+venv/
+.venv/
+env/
+
+# Django cache files
+__pycache__/
+*.pyc
+
+# Local SQLite Database (keeps your personal test data private)
+db.sqlite3
+
+# Operating system system files
+.DS_Store
+Thumbs.db

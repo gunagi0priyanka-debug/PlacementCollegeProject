@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Add Job Opportunities</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Admin</h2>
+            <ul>
+                <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'admin_add_jobs' %}" class="active">Add Job</a></li>
+                <li><a href="{% url 'admin_manage_students' %}">Manage Students</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Create Job Opportunities</h1>
+                <p>Manually assign and post job open positions on behalf of corporate partners.</p>
+            </div>
+
+            <div class="table-box" style="border-top: 4px solid #f59e0b; max-width: 850px;">
+                <h2 style="margin-bottom: 25px; color: #b45309;">Job Deployment Panel</h2>
+                
+                <form method="POST" action="{% url 'admin_add_jobs' %}">
+                    {% csrf_token %}
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label>Assign to Corporate Partner</label>
+                            <select name="company_profile_id" required style="width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem; background-color: white;">
+                                <option value="" disabled selected>-- Select Registered Company --</option>
+                                {% for company in companies %}
+                                <option value="{{ company.id }}">{{ company.company_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Target Job Designation / Role</label>
+                            <input type="text" name="job_role" placeholder="e.g. Data Analyst" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label>Offered Salary Compensation Package</label>
+                            <input type="text" name="package" placeholder="e.g. 8 LPA" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Academic Eligibility Standards</label>
+                            <input type="text" name="eligibility" placeholder="e.g. 65% aggregate or above" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label>Core Responsibilities Summary & Description</label>
+                        <textarea name="description" rows="5" placeholder="Describe foundational operational workflows, project domains, and criteria constraints..." style="width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem; resize: vertical;" required></textarea>
+                    </div>
+
+                    <button type="submit" class="auth-btn" style="background: #f59e0b; max-width: 200px;">Deploy Job Listing</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

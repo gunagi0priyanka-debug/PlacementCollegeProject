@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students | Admin Panel</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Admin</h2>
+            <ul>
+                <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'admin_add_jobs' %}">Add Job</a></li>
+                <li><a href="{% url 'admin_manage_students' %}" class="active">Manage Students</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Manage Registered Students</h1>
+                <p>View and monitor student performance metrics and specialized skillsets.</p>
+            </div>
+
+            <div class="table-box" style="border-top: 4px solid #10b981;">
+                <h2>All Registered Profiles</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Department / Course</th>
+                            <th>CGPA</th>
+                            <th>Skills</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td style="font-weight: 600; color: #1e3a8a;">{{ student.user.username }}</td>
+                            
+                            <td>{{ student.department|default:student.course|default:"General Engineering" }}</td>
+                            
+                            <td>
+                                <strong style="color: #2e7d32; background: #e8f5e9; padding: 4px 8px; border-radius: 4px;">
+                                    {{ student.cgpa|default:student.percentage|default:"0.0" }}
+                                </strong>
+                            </td>
+                            
+                            <td>
+                                <span style="font-size: 0.85rem; color: #475569; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; display: inline-block;">
+                                    {{ student.skills|default:"None listed" }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px; color: #64748b;">
+                                No student accounts have registered yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

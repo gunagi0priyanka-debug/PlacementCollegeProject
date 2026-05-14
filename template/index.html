@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerFlow | Find Your Next Big Opportunity</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'index' %}" class="logo">CareerFlow</a>
+        <ul class="nav-links">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'login' %}" class="login-nav-btn">Log In</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Find Your Dream Job Today</h1>
+            <p>Browse through thousands of placement opportunities from top MNCs and startups.</p>
+            <div class="hero-btns">
+                <a href="{% url 'register' %}" class="hero-primary-btn">Get Started</a>
+                <a href="#jobs" class="hero-secondary-btn">Explore Jobs</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="job-container" id="jobs">
+        <h2 class="section-title">Recent Job Openings</h2>
+        <div class="job-grid">
+            {% for job in jobs %}
+            <div class="job-card">
+                <div class="job-badge">New</div>
+                
+                <h3 class="job-title">{{ job.title }}</h3> 
+                
+                <p class="company-name">🏢 {{ job.company.company_name|default:"Corporate Partner" }}</p>
+                
+                <div class="job-meta">
+                    <p class="salary">💰 <strong>{{ job.salary }}</strong></p>
+                    <p class="location">📍 {{ job.location }}</p>
+                </div>
+                
+                <p class="description">{{ job.description|truncatewords:15 }}</p>
+                
+                <div class="card-footer">
+                    <a href="{% url 'job_details' job.id %}" class="apply-btn">View Details →</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <p>No job openings at the moment. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

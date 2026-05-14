@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ job.title }} | Details</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+    <div style="max-width: 700px; margin: 50px auto; padding: 30px; border: 1px solid #ccc; border-radius: 8px;">
+        <a href="{% url 'index' %}">← Back to Openings</a>
+        <h1 style="margin-top: 20px;">{{ job.title }}</h1>
+        <h3>Company: {{ job.company.company_name }}</h3>
+        <p><strong>Package:</strong> {{ job.salary }}</p>
+        <p><strong>Location:</strong> {{ job.location }}</p>
+        <hr>
+        <h4>Job Description:</h4>
+        <p>{{ job.description }}</p>
+    </div>
+</body>
+</html>

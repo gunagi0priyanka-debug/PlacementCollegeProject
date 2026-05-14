@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job | Recruiter Panel</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Company</h2>
+            <ul>
+                <li><a href="{% url 'company_dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'company_post_jobs' %}" class="active">Post Job</a></li>
+                <li><a href="{% url 'company_applicants' %}">Applicants</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Post a New Job</h1>
+                <p>Publish recruitment openings directly onto the student opportunity matrix board.</p>
+            </div>
+
+            <div class="table-box" style="border-top: 4px solid #8b5cf6; max-width: 850px;">
+                <h2 style="margin-bottom: 25px; color: #4c1d95;">Job Specification Form</h2>
+                
+                <form method="POST" action="{% url 'company_post_jobs' %}">
+                    {% csrf_token %}
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label>Job Title / Role</label>
+                            <input type="text" name="job_role" placeholder="e.g. Software Engineer" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Salary Package (LPA)</label>
+                            <input type="text" name="package" placeholder="e.g. 12 LPA" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label>Job Location</label>
+                            <input type="text" name="location" placeholder="e.g. Bengaluru, Remote" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Minimum Eligibility (%)</label>
+                            <input type="text" name="eligibility" placeholder="e.g. 70" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label>Comprehensive Job Description</label>
+                        <textarea name="description" rows="5" placeholder="Outline clear day-to-day responsibilities, technology stacks, and secondary benefits..." style="width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem; resize: vertical;" required></textarea>
+                    </div>
+
+                    <button type="submit" class="auth-btn" style="background: #8b5cf6; max-width: 200px;">Publish Job</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

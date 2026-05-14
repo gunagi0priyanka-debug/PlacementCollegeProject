@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - CareerFlow</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1>Welcome Back</h1>
+            <p>Access your dashboard</p>
+
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <select name="user_type" required>
+                    <option value="" disabled selected>Select User Type</option>
+                    <option value="student">Student</option>
+                    <option value="admin">Admin</option>
+                    <option value="company">Company</option>
+                </select>
+
+                <input type="email" name="email" placeholder="Enter Email" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+
+                <button type="submit">Sign In</button>
+            </form>
+
+            <div class="auth-link">
+                <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                <p style="margin-top: 10px;"><a href="{% url 'index' %}">← Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

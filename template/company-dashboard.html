@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Dashboard | CareerFlow</title>
+    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Company</h2>
+        <ul>
+            <li><a href="{% url 'company_dashboard' %}" class="active">Dashboard</a></li>
+            <li><a href="{% url 'company_post_jobs' %}">Post Job</a></li>
+            <li><a href="{% url 'company_applicants' %}">Applicants</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+    <h1>Welcome back, {{ company_name|upper }} Dashboard</h1>
+    
+    <p style="color: #666; font-size: 0.9rem;">Logged in recruiter: <strong>{{ hr_username }}</strong></p>
+    
+    <p>Monitoring active applicants and hiring updates for your roles.</p>
+</div>
+
+        <!-- Dashboard Stat Cards -->
+        <div class="cards">
+            <div class="card">
+                <h3>Jobs Posted</h3>
+                <!-- Displays count of jobs from 'jobs_posted' context variable -->
+                <p>{{ jobs_posted }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Applicants</h3>
+                <!-- Displays count of applications from 'total_applicants' context variable -->
+                <p>{{ total_applicants }}</p>
+            </div>
+            <div class="card">
+                <h3>Shortlisted</h3>
+                <!-- Displays count of shortlisted apps from 'shortlisted_count' context variable -->
+                <p>{{ shortlisted_count }}</p>
+            </div>
+        </div>
+
+        <!-- Applications Table -->
+        <div class="table-box">
+            <h2>Recent Applications</h2>
+            <!-- Table for Company Dashboard -->
+<table>
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Job Title</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for app in recent_applications %}
+    <tr>
+        <td><strong>{{ app.student.user.username }}</strong></td>
+        <td>{{ app.job.title }}</td>
+        <td>
+            <span class="status {{ app.status|lower }}">{{ app.status }}</span>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3" style="text-align: center; padding: 15px; color: #888;">
+            No applications received yet.
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
